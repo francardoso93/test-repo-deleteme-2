@@ -72,3 +72,5 @@ resource "aws_sqs_queue" "indexer_topic_dlq" {
   message_retention_seconds  = 1209600 # 14 days (Max quota)
   visibility_timeout_seconds = 300
 }
+
+
