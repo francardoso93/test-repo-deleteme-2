@@ -1,0 +1,14 @@
+bitswapPeer:
+  repoURL: "https://github.com/elastic-ipfs/bitswap-peer-deployment.git"
+  targetRevision: HEAD # Replaced in Terraform
+  releaseName: elastic-ipfs-bitswap-peer # Replaced in Terraform
+  namespace: default
+  valueFileNames: # Replaced in Terraform
+  - "values.yaml"
+  values:
+logging:
+  namespace: logging
+argo-cd:
+  installCRDs: false
+  dex:
+    enabled: false
