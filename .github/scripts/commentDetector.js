@@ -37,8 +37,8 @@ module.exports = async ({ github, context }) => {
         console.log('****** Without cleanUserInput()')
         console.log(commandArray[0])
         console.log(commandArray[1])
-        result.dirty_aws_region = commandArray[0]
-        result.dirty_ts_env = commandArray[1]
+        console.log(commandArray[2])
+        console.log(commandArray[3])
         ////
 
         result.aws_region = cleanAndValidateUserInput(commandArray[0], validRegions)
