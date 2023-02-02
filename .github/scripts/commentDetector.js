@@ -34,11 +34,12 @@ module.exports = async ({ github, context }) => {
       // - AWS_REGION=<value> TS_ENV=<value> terraspace up [stack]
       if (commandArray[2] === "terraspace" && commandArray.length === 5) {
         //// debugging
-        console.log('****** Without cleanUserInput()')
-        console.log(commandArray[0])
-        console.log(commandArray[1])
-        console.log(commandArray[2])
-        console.log(commandArray[3])
+        console.log('****** dirty commandArray ******')
+        console.log("0" + commandArray[0])
+        console.log("1" + commandArray[2])
+        console.log("2" + commandArray[1])
+        console.log("3" + commandArray[3])
+        console.log("4" + commandArray[4])
         ////
 
         result.aws_region = cleanAndValidateUserInput(commandArray[0], validRegions)
@@ -84,7 +85,7 @@ module.exports = async ({ github, context }) => {
 
           result.requestAllUp = result.subCmd === "up" ? "true" : "false"
           result.requestAllPlan = result.subCmd === "plan" ? "true" : "false"
-        } else if (["plan", "up"].includes(commandArray[4])) {
+        } else if (["plan", "up"].includes(commandArray[3])) {
           await createStatusChecks()
 
           result.proceed = "true"
