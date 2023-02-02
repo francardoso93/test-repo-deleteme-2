@@ -74,7 +74,7 @@ module.exports = async ({ github, context }) => {
 
           result.requestAllUp = result.subCmd === "up" ? "true" : "false"
           result.requestAllPlan = result.subCmd === "plan" ? "true" : "false"
-        } else if (["plan", "up"].includes(commandArray[4])) {
+        } else if (["plan", "up"].includes(commandArray[3])) {
           await createStatusChecks()
 
           result.proceed = "true"
@@ -96,5 +96,5 @@ module.exports = async ({ github, context }) => {
  * Don't allow spaces, and escape special characters, to avoid injections 
  */
 function cleanUserInput(input) {
-  return input.substring(input.indexOf("=") + 1, input.indexOf(" ")).replace(/[^\w\s]/gi, '\\$&')
+  return input.substring(input.indexOf("=") + 1).replace("_", "").replace(/[^\w\s]/gi, '\\$&')
 }
