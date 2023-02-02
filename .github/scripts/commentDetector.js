@@ -96,5 +96,5 @@ module.exports = async ({ github, context }) => {
  * Don't allow spaces, and escape special characters, to avoid injections 
  */
 function cleanUserInput(input) {
-  return input.replace(" ", "").replace(/[^\w\s\-]/gi, '\\$&').substring(input.indexOf("=") + 1)
+  return input.replace(" ", "").replace(/[^a-zA-Z0-9_\-]/gi, '\\$&').substring(input.indexOf("=") + 1)
 }
