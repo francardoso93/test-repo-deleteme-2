@@ -23,6 +23,14 @@ module.exports = async ({ github, context }) => {
       // - AWS_REGION=<value> TS_ENV=<value> terraspace plan [stack]
       // - AWS_REGION=<value> TS_ENV=<value> terraspace up [stack]
       if (commandArray[2] === "terraspace" && commandArray.length === 5) {
+        //// debugging
+        console.log('****** Without cleanUserInput()')
+        console.log(commandArray[0])
+        console.log(commandArray[1])
+        result.dirty_aws_region=commandArray[0]
+        result.dirty_ts_env=commandArray[1]
+        ////
+
         result.aws_region = cleanUserInput(commandArray[0])
         result.ts_env = cleanUserInput(commandArray[1])
         result.program = commandArray[2]
@@ -57,12 +65,12 @@ module.exports = async ({ github, context }) => {
           result.commitStatusId = commitStatusRes.data.id
           // console.log(`commitStatusRes = ${JSON.stringify(commitStatusRes)}`)
         }
-        if (commandArray[4] === "all" && ["plan", "up"].includes(commandArray[5])) {
+        if (commandArray[3] === "all" && ["plan", "up"].includes(commandArray[4])) {
           await createStatusChecks()
 
           result.proceed = "true"
           result.cmd = "all"
-          result.subCmd = commandArray[5]
+          result.subCmd = commandArray[4]
 
           result.requestAllUp = result.subCmd === "up" ? "true" : "false"
           result.requestAllPlan = result.subCmd === "plan" ? "true" : "false"
@@ -70,8 +78,8 @@ module.exports = async ({ github, context }) => {
           await createStatusChecks()
 
           result.proceed = "true"
-          result.cmd = commandArray[4]
-          result.subCmd = commandArray[5]
+          result.cmd = commandArray[3]
+          result.subCmd = commandArray[4]
 
           result.requestUp = result.cmd === "up" ? "true" : "false"
           result.requestPlan = result.cmd === "plan" ? "true" : "false"
