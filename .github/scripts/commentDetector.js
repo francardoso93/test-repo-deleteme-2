@@ -42,7 +42,7 @@ module.exports = async ({ github, context }) => {
         ////
 
         result.aws_region = cleanAndValidateUserInput(commandArray[0], validRegions)
-        result.ts_env = cleanUserInput(commandArray[1], validEnvs)
+        result.ts_env = cleanAndValidateUserInput(commandArray[1], validEnvs)
         result.program = commandArray[2]
         const createStatusChecks = async () => {
           const res = await github.rest.checks.create({
