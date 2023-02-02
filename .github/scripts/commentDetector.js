@@ -106,7 +106,7 @@ module.exports = async ({ github, context }) => {
  * Don't allow spaces, and escape special characters, to avoid injections 
  */
 function cleanAndValidateUserInput(input, validValues) {
-  const cleanInput = input.trim.substring(input.indexOf("=") + 1)
+  const cleanInput = input.trim().substring(input.indexOf("=") + 1)
   if (validValues.includes(cleanInput)) {
     return cleanInput
   } else {
