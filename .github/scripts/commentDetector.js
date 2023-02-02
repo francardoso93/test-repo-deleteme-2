@@ -9,6 +9,16 @@ module.exports = async ({ github, context }) => {
     requestPlan: "false",
     requestUp: "false",
   }
+  const validRegions = [
+    "us-east-1",
+    "us-east-2",
+    "us-west-2",
+  ]
+  const validEnvs = [
+    "dev",
+    "staging",
+    "prod",
+  ]
   if (['issue_comment'].includes(context.eventName)) {
     result.proceed = "false"
     if (context.payload.issue?.pull_request) {
@@ -27,12 +37,12 @@ module.exports = async ({ github, context }) => {
         console.log('****** Without cleanUserInput()')
         console.log(commandArray[0])
         console.log(commandArray[1])
-        result.dirty_aws_region=commandArray[0]
-        result.dirty_ts_env=commandArray[1]
+        result.dirty_aws_region = commandArray[0]
+        result.dirty_ts_env = commandArray[1]
         ////
 
-        result.aws_region = cleanUserInput(commandArray[0])
-        result.ts_env = cleanUserInput(commandArray[1])
+        result.aws_region = cleanAndValidateUserInput(commandArray[0], validRegions)
+        result.ts_env = cleanUserInput(commandArray[1], validEnvs)
         result.program = commandArray[2]
         const createStatusChecks = async () => {
           const res = await github.rest.checks.create({
@@ -95,6 +105,11 @@ module.exports = async ({ github, context }) => {
  * Gets value after '=' 
  * Don't allow spaces, and escape special characters, to avoid injections 
  */
-function cleanUserInput(input) {
-  return input.substring(input.indexOf("=") + 1, input.indexOf(" ")).replace(/[^\w\s]/gi, '\\$&')
+function cleanAndValidateUserInput(input, validValues) {
+  const cleanInput = input.trim.substring(input.indexOf("=") + 1)
+  if (validValues.includes(cleanInput)) {
+    return cleanInput
+  } else {
+    throw new Error(`Invalid value. Accepted values are: ${validValues.join(', ')}`)
+  }
 }
